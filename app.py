@@ -31,11 +31,12 @@ client = OpenAI(
 # ==========================================================
 # CHROMADB
 # ==========================================================
-# In-memory for learning.
-# Later we will switch to PersistentClient.
-# ==========================================================
 
-chroma_client = chromadb.Client()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+chroma_client = chromadb.PersistentClient(
+    path=os.path.join(BASE_DIR, "chroma_db")
+)
 
 collection = chroma_client.get_or_create_collection(
     name="company_docs"
@@ -272,6 +273,13 @@ def evaluate():
             "status": "manual test passed"
         }
     ]
+
+@app.get("/count")
+def count_docs():
+
+    return {
+        "count": collection.count()
+    }
 
 # ==========================================================
 # RAG (Retrieval Augmented Generation)
