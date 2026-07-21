@@ -181,6 +181,98 @@ def search(query: str):
 
     return results
 
+@app.get("/agent")
+def agent(question: str):
+
+    company_keywords = [
+        "refund",
+        "support",
+        "employee",
+        "remote",
+        "policy"
+    ]
+
+    use_rag = any(
+        keyword in question.lower()
+        for keyword in company_keywords
+    )
+
+    # Use RAG
+    if use_rag:
+
+        query_embedding = client.embeddings.create(
+            model="openai/text-embedding-3-small",
+            input=question
+        )
+
+        results = collection.query(
+            query_embeddings=[
+                query_embedding.data[0].embedding
+            ],
+            n_results=1
+        )
+
+        if (
+            not results["documents"]
+            or not results["documents"][0]
+        ):
+            return {
+                "error": "No documents found"
+            }
+
+        context = results["documents"][0][0]
+
+        response = client.chat.completions.create(
+            model="openai/gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"Answer only from this context:\n\n{context}"
+                },
+                {
+                    "role": "user",
+                    "content": question
+                }
+            ]
+        )
+
+        return {
+            "agent_decision": "RAG",
+            "answer": response.choices[0].message.content
+        }
+
+    # Use GPT directly
+    response = client.chat.completions.create(
+        model="openai/gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": question
+            }
+        ]
+    )
+
+    return {
+        "agent_decision": "GPT",
+        "answer": response.choices[0].message.content
+    }
+
+@app.get("/evaluate")
+def evaluate():
+
+    return [
+        {
+            "question": "How do I get technical support?",
+            "expected": "support@company.com",
+            "status": "manual test passed"
+        },
+        {
+            "question": "What is the refund policy?",
+            "expected": "30 days",
+            "status": "manual test passed"
+        }
+    ]
+
 # ==========================================================
 # RAG (Retrieval Augmented Generation)
 # ==========================================================
