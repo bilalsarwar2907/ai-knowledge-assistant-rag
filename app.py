@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import chromadb
 import os
+from pypdf import PdfReader
 
 # ==========================================================
 # LOAD ENVIRONMENT VARIABLES
@@ -27,6 +28,16 @@ client = OpenAI(
     api_key=os.getenv("OPENROUTER_API_KEY"),
     base_url="https://openrouter.ai/api/v1"
 )
+
+def extract_pdf_text(file_path):
+    reader = PdfReader(file_path)
+
+    text = ""
+
+    for page in reader.pages:
+        text += page.extract_text() + "\n"
+
+    return text
 
 # ==========================================================
 # CHROMADB
@@ -280,6 +291,78 @@ def count_docs():
     return {
         "count": collection.count()
     }
+
+
+@app.get("/load-pdfs")
+def load_pdfs():
+
+    pdf_files = [
+        f for f in os.listdir("documents")
+        if f.endswith(".pdf")
+    ]
+
+    count = 0
+
+    for pdf in pdf_files:
+
+        file_path = os.path.join("documents", pdf)
+
+        text = extract_pdf_text(file_path)
+
+        embedding_response = client.embeddings.create(
+            model="openai/text-embedding-3-small",
+            input=text
+        )
+
+        embedding = embedding_response.data[0].embedding
+
+        collection.add(
+            ids=[pdf],
+            documents=[text],
+            embeddings=[embedding]
+        )
+
+        count += 1
+
+    return {
+        "loaded_pdfs": count
+    }
+
+@app.get("/ask-rag")
+def ask_rag(question: str):
+
+    embedding_response = client.embeddings.create(
+        model="openai/text-embedding-3-small",
+        input=question
+    )
+
+    question_embedding = embedding_response.data[0].embedding
+
+    results = collection.query(
+        query_embeddings=[question_embedding],
+        n_results=1
+    )
+
+    context = results["documents"][0][0]
+
+    response = client.chat.completions.create(
+        model="openai/gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": f"Answer only using this context:\n\n{context}"
+            },
+            {
+                "role": "user",
+                "content": question
+            }
+        ]
+    )
+
+    return {
+        "answer": response.choices[0].message.content
+    }
+
 
 # ==========================================================
 # RAG (Retrieval Augmented Generation)
