@@ -4,6 +4,7 @@ from openai import OpenAI
 import chromadb
 import os
 from pypdf import PdfReader
+from rich import text
 
 # ==========================================================
 # LOAD ENVIRONMENT VARIABLES
@@ -38,6 +39,15 @@ def extract_pdf_text(file_path):
         text += page.extract_text() + "\n"
 
     return text
+
+def chunk_text(text, chunk_size=500):
+
+    chunks = []
+
+    for i in range(0, len(text), chunk_size):
+        chunks.append(text[i:i + chunk_size])
+
+    return chunks
 
 # ==========================================================
 # CHROMADB
@@ -309,23 +319,27 @@ def load_pdfs():
 
         text = extract_pdf_text(file_path)
 
-        embedding_response = client.embeddings.create(
-            model="openai/text-embedding-3-small",
-            input=text
-        )
+        chunks = chunk_text(text)
 
-        embedding = embedding_response.data[0].embedding
+        for index, chunk in enumerate(chunks):
 
-        collection.add(
-            ids=[pdf],
-            documents=[text],
-            embeddings=[embedding]
-        )
+            embedding_response = client.embeddings.create(
+                model="openai/text-embedding-3-small",
+                input=chunk
+            )
 
-        count += 1
+            embedding = embedding_response.data[0].embedding
+
+            collection.add(
+                ids=[f"{pdf}_{index}"],
+                documents=[chunk],
+                embeddings=[embedding]
+            )
+
+            count += 1
 
     return {
-        "loaded_pdfs": count
+        "loaded_chunks": count
     }
 
 @app.get("/ask-rag")
