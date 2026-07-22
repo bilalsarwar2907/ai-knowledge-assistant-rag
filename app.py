@@ -5,6 +5,15 @@ import chromadb
 import os
 from pypdf import PdfReader
 from rich import text
+from jose import jwt
+from jose import JWTError
+from datetime import datetime, timedelta
+
+SECRET_KEY = "my-super-secret-key"
+
+ALGORITHM = "HS256"
+
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # ==========================================================
 # LOAD ENVIRONMENT VARIABLES
@@ -64,6 +73,48 @@ chroma_client = chromadb.PersistentClient(
 collection = chroma_client.get_or_create_collection(
     name="company_docs"
 )
+
+@app.get("/login")
+def login():
+
+    expire = datetime.utcnow() + timedelta(
+        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+
+    token = jwt.encode(
+        {
+            "sub": "bilal",
+            "exp": expire
+        },
+        SECRET_KEY,
+        algorithm=ALGORITHM
+    )
+
+    return {
+        "access_token": token
+    }
+
+@app.get("/protected")
+def protected(token: str):
+
+    try:
+
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+        return {
+            "message": "Access granted",
+            "user": payload["sub"]
+        }
+
+    except JWTError:
+
+        return {
+            "message": "Invalid token"
+        }
 
 # ==========================================================
 # HOME
