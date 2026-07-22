@@ -21,6 +21,8 @@ app = FastAPI(
     version="1.0"
 )
 
+conversation_history = []
+
 # ==========================================================
 # OPENROUTER CLIENT
 # ==========================================================
@@ -103,14 +105,23 @@ def test_openai():
 @app.get("/ask")
 def ask(question: str):
 
+    conversation_history.append(
+        {
+            "role": "user",
+            "content": question
+        }
+    )
+
     response = client.chat.completions.create(
         model="openai/gpt-4o-mini",
-        messages=[
-            {
-                "role": "user",
-                "content": question
-            }
-        ]
+        messages=conversation_history
+    )
+
+    conversation_history.append(
+        {
+            "role": "assistant",
+            "content": response.choices[0].message.content
+        }
     )
 
     return {
