@@ -1,533 +1,450 @@
-# AI Knowledge Assistant
+ AI Knowledge Assistant
 
-An AI-powered Knowledge Assistant built with **FastAPI**, **OpenRouter**, **Embeddings**, **ChromaDB**, and **Retrieval-Augmented Generation (RAG)**.
+A production-style **Full-Stack AI Knowledge Assistant** built with **Vue.js**, **FastAPI**, **OpenRouter**, **GPT-4o-mini**, **Embeddings**, **ChromaDB**, **Retrieval-Augmented Generation (RAG)**, **Agent Routing**, **JWT Authentication**, **Docker**, and **GitHub Actions CI/CD**.
 
-This project demonstrates the core architecture used in many modern AI applications by combining Large Language Models (LLMs) with a Vector Database to provide accurate, context-aware answers from custom organizational knowledge.
+This project demonstrates how modern AI applications are built by combining Large Language Models (LLMs) with Vector Databases, Semantic Search, Retrieval-Augmented Generation, Authentication, Evaluation Frameworks, and a modern frontend experience.
 
----
+The application allows users to upload, retrieve, search, and chat with organizational knowledge while showcasing production-oriented AI engineering patterns.
 
-# Project Overview
 
-Traditional AI chatbots rely only on the model's training data.
+ Project Overview
 
-This application extends LLM capabilities by allowing the model to retrieve and use information from custom documents before generating a response.
+Traditional AI chatbots rely solely on a model's pre-trained knowledge.
+
+The AI Knowledge Assistant extends LLM capabilities by retrieving relevant information from custom documents before generating responses.
+
+Supported knowledge sources include:
+
+* Text Documents
+* PDF Documents
+* Chunked Knowledge Bases
+* Vector Embeddings
+* ChromaDB Collections
+
+The system combines:
+
+```text
+LLM Intelligence
++
+Vector Search
++
+Custom Knowledge
++
+Conversation Memory
+=
+Domain-Aware AI Assistant
+```
 
 Example:
 
-**Question**
+### User Question
 
 ```text
-How do I get technical support?
+What sector is excluded?
 ```
 
-**Retrieved Context**
+### Retrieved Context
 
 ```text
-Technical support is available by emailing support@company.com.
+The Airlines sector is excluded from this policy.
 ```
 
-**Answer**
+### RAG Response
 
 ```text
-You can get technical support by emailing support@company.com.
+The Airlines sector is excluded.
 ```
 
-This technique is known as:
+***
 
-```text
-RAG
-(Retrieval-Augmented Generation)
-```
+# Key Features
 
----
+### AI & LLM Features
 
-# Features
-
-✅ FastAPI REST API
+✅ GPT-4o-mini Integration
 
 ✅ OpenRouter Integration
 
-✅ GPT-4o-mini Chat Completion
-
 ✅ Text Embeddings
 
-✅ ChromaDB Vector Database
+✅ Vector Similarity Search
+
+✅ Retrieval-Augmented Generation (RAG)
+
+✅ Multi-Document RAG
+
+✅ PDF Ingestion
+
+✅ Chunked Retrieval
+
+✅ Agent-Based Routing
+
+✅ Conversation Memory
 
 ✅ Semantic Search
 
-✅ RAG (Retrieval-Augmented Generation)
+✅ Evaluation Framework
 
-✅ Swagger API Documentation
+***
 
-✅ Environment Variable Management
+### Backend Features
 
-✅ Git & GitHub Version Control
+✅ FastAPI REST APIs
 
----
+✅ Swagger Documentation
 
-# Architecture Diagram
+✅ JWT Authentication
+
+✅ Protected Endpoints
+
+✅ Persistent ChromaDB Storage
+
+✅ Environment Variable Configuration
+
+✅ Modular AI Services
+
+***
+
+### Frontend Features
+
+✅ Vue 3
+
+✅ Vue Router
+
+✅ Axios API Integration
+
+✅ Login System
+
+✅ Chat Interface
+
+✅ Agent Testing Interface
+
+✅ Search Interface
+
+✅ Document Management Interface
+
+✅ Evaluation Dashboard
+
+✅ Modern Responsive UI
+
+***
+
+### DevOps Features
+
+✅ Docker Containerization
+
+✅ Docker Build Validation
+
+✅ GitHub Actions CI/CD
+
+✅ Automated Build Pipelines
+
+✅ Source Control via Git & GitHub
+
+***
+
+# Architecture
 
 ```text
-                     ┌─────────────────┐
-                     │ User Question   │
-                     └────────┬────────┘
-                              │
-                              ▼
-                     ┌─────────────────┐
-                     │ FastAPI Endpoint│
-                     └────────┬────────┘
-                              │
-                              ▼
-                     ┌─────────────────┐
-                     │ Embedding Model │
-                     └────────┬────────┘
-                              │
-                              ▼
-                     ┌─────────────────┐
-                     │ ChromaDB Search │
-                     └────────┬────────┘
-                              │
-                              ▼
-                     ┌─────────────────┐
-                     │ Retrieved Context│
-                     └────────┬────────┘
-                              │
-                              ▼
-                     ┌─────────────────┐
-                     │ GPT-4o-mini     │
-                     └────────┬────────┘
-                              │
-                              ▼
-                     ┌─────────────────┐
-                     │ Final Answer    │
-                     └─────────────────┘
+┌─────────────────────────────┐
+│         Vue Frontend        │
+│                             │
+│  Login                      │
+│  Chat                       │
+│  Agent                      │
+│  Search                     │
+│  Documents                  │
+│  Evaluation                 │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│       FastAPI Backend       │
+│                             │
+│  JWT Authentication         │
+│  RAG Service                │
+│  Agent Routing              │
+│  PDF Processing             │
+│  Vector Search              │
+│  Evaluation Engine          │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         OpenRouter          │
+│                             │
+│  GPT-4o-mini               │
+│  Embedding Models          │
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│         ChromaDB            │
+│                             │
+│  Persistent Storage         │
+│  Embeddings                 │
+│  Chunked Documents          │
+│  Similarity Search          │
+└─────────────────────────────┘
 ```
 
----
+***
 
 # Technologies Used
 
+## Frontend
+
+* Vue 3
+* Vue Router
+* Axios
+* JavaScript
+* CSS
+
 ## Backend
 
-- FastAPI
-- Uvicorn
-- Python 3.x
+* FastAPI
+* Python
+* Uvicorn
+* Pydantic
 
-## AI / LLM
+## AI & LLM
 
-- OpenRouter
-- GPT-4o-mini
-- OpenAI SDK
+* OpenRouter
+* GPT-4o-mini
+* OpenAI SDK
+* Text Embeddings
 
 ## Vector Database
 
-- ChromaDB
+* ChromaDB
+* Persistent Collections
+* Vector Similarity Search
 
-## AI Concepts
+## Authentication
 
-- Embeddings
-- Semantic Search
-- Vector Similarity Search
-- Retrieval-Augmented Generation (RAG)
+* JWT
+* python-jose
+* bcrypt
+* passlib
 
-## Development Tools
+## Document Processing
 
-- VS Code
-- Git
-- GitHub
-- Swagger UI
+* PyPDF
+* PDF Text Extraction
+* Document Chunking
 
----
+## DevOps
 
-# Project Structure
+* Docker
+* GitHub Actions
+* Git
+* GitHub
 
-```text
-ai-knowledge-assistant/
+***
 
-│
-├── app.py
-├── .env
-├── .gitignore
-│
-├── documents/
-│   └── company_policy.txt
-│
-├── venv/
-│
-└── README.md
-```
+# Core AI Concepts Demonstrated
 
----
+This project demonstrates practical implementation of:
 
-# Installation
+* Large Language Models (LLMs)
+* Embeddings
+* Vector Databases
+* Similarity Search
+* Semantic Search
+* Retrieval-Augmented Generation (RAG)
+* Multi-Document Retrieval
+* Chunking Strategies
+* Agent Routing
+* Conversation Memory
+* AI Evaluation
+* Authentication for AI Applications
+* Production AI Architecture
 
-## 1. Clone Repository
+***
 
-```bash
-git clone https://github.com/bilalsarwar2907/ai-knowledge-assistant-rag.git
+# Current Application Pages
 
-cd ai-knowledge-assistant-rag
-```
+### Login
 
----
+Authenticate users using JWT tokens.
 
-## 2. Create Virtual Environment
+### Chat
 
-```bash
-python -m venv venv
-```
+Interact with the RAG-powered knowledge base.
 
-Activate:
+### Agent
 
-### Windows
+Visualize GPT vs RAG routing decisions.
 
-```bash
-venv\Scripts\activate
-```
+### Documents
 
-### Linux / Mac
+Manage loaded knowledge sources and review stored chunks.
 
-```bash
-source venv/bin/activate
-```
+### Search
 
----
+Perform standalone vector similarity searches and inspect retrieval quality.
 
-## 3. Install Dependencies
+### Evaluation
 
-```bash
-pip install fastapi uvicorn openai chromadb python-dotenv
-```
+Validate AI responses against expected outcomes and measure answer quality.
 
----
-
-## 4. Configure Environment Variables
-
-Create:
-
-```text
-.env
-```
-
-Example:
-
-```text
-OPENROUTER_API_KEY=your-api-key-here
-```
-
----
-
-## 5. Run Application
-
-```bash
-python -m uvicorn app:app --reload --port 8001
-```
-
----
-
-## 6. Open Swagger UI
-
-```text
-http://127.0.0.1:8001/docs
-```
-
----
+***
 
 # API Endpoints
 
-## Home
+### General
 
 ```http
 GET /
+GET /count
 ```
 
-Returns application status.
-
----
-
-## Test LLM Connection
+### LLM
 
 ```http
 GET /test-openai
+GET /ask
 ```
 
-Tests GPT response through OpenRouter.
-
----
-
-## Ask GPT Directly
-
-```http
-GET /ask?question=YourQuestion
-```
-
-Example:
-
-```text
-/ask?question=What is FastAPI?
-```
-
----
-
-## Test Embeddings
+### Embeddings
 
 ```http
 GET /test-embedding
 ```
 
-Generates a vector embedding and returns dimensions.
-
-Example output:
-
-```json
-{
-  "dimensions": 1536
-}
-```
-
----
-
-## Load Documents
+### Knowledge Base
 
 ```http
 GET /load-docs
-```
-
-Loads local documents into ChromaDB.
-
----
-
-## View Stored Documents
-
-```http
+GET /load-pdfs
 GET /all-docs
+GET /search
 ```
 
-Returns stored vector documents.
-
----
-
-## Vector Search
+### RAG
 
 ```http
-GET /search?query=support
+GET /ask-rag
 ```
 
-Performs semantic search against the vector database.
-
----
-
-## RAG Endpoint
+### Agent
 
 ```http
-GET /ask-rag?question=How do I get technical support?
+GET /agent
 ```
 
-Workflow:
-
-```text
-Question
-   ↓
-Embedding
-   ↓
-Vector Search
-   ↓
-Retrieved Context
-   ↓
-GPT
-   ↓
-Answer
-```
-
----
-
-# Example Workflow
-
-## Step 1
-
-Load documents:
+### Evaluation
 
 ```http
-GET /load-docs
+GET /evaluate
 ```
 
----
-
-## Step 2
-
-Search documents:
+### Authentication
 
 ```http
-GET /search?query=support
+GET /login
+GET /protected
 ```
 
----
+***
 
-## Step 3
-
-Ask RAG:
-
-```http
-GET /ask-rag?question=How do I get technical support?
-```
-
-Result:
-
-```json
-{
-  "answer": "You can get technical support by emailing support@company.com."
-}
-```
-
----
-
-# Screenshots
-
-Add screenshots here after uploading images.
-
-## Swagger Documentation
+# Project Structure
 
 ```text
-images/swagger-home.png
+ai-knowledge-assistant/
+│
+├── frontend/
+│   ├── src/
+│   ├── components/
+│   ├── views/
+│   └── router/
+│
+├── documents/
+│   ├── faq.pdf
+│   ├── handbook.pdf
+│   └── company_policy.txt
+│
+├── chroma_db/
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       └── docker-build.yml
+│
+├── app.py
+├── requirements.txt
+├── Dockerfile
+├── .dockerignore
+├── .env
+├── README.md
+│
+└── venv/
 ```
 
----
+***
 
-## Embedding Endpoint Response
+# Resume Highlights
 
-```text
-images/embedding-test.png
-```
+This project demonstrates experience with:
 
----
+* FastAPI
+* Vue.js
+* GPT Integration
+* OpenRouter APIs
+* Embeddings
+* ChromaDB
+* Vector Search
+* Retrieval-Augmented Generation (RAG)
+* Multi-Document Knowledge Retrieval
+* Chunking Strategies
+* Agent Routing
+* Conversation Memory
+* JWT Authentication
+* AI Evaluation Frameworks
+* Docker
+* GitHub Actions CI/CD
+* Full-Stack AI Application Development
 
-## ChromaDB Search Result
+***
 
-```text
-images/vector-search.png
-```
+# Future Enhancements
 
----
+### High Priority
 
-## RAG Response
+* User PDF Upload
+* Persistent Conversation Memory (SQLite/PostgreSQL)
+* User Profile Page
 
-```text
-images/rag-response.png
-```
+### Cloud & Production
 
----
+* Azure App Service Deployment
+* Azure Static Web Apps
+* Azure OpenAI Integration
+* Azure AI Search
+* Enterprise RAG
+* Monitoring & Logging
 
-# Skills Demonstrated
+### Advanced AI
 
-This project demonstrates practical experience with:
+* Semantic Kernel
+* Multi-Agent Workflows
+* Azure AI Foundry
+* Copilot Studio Integration
 
-- REST API Development
-- FastAPI
-- OpenRouter APIs
-- Prompt Engineering
-- Text Embeddings
-- Vector Databases
-- ChromaDB
-- Semantic Search
-- Retrieval-Augmented Generation (RAG)
-- Environment Variables
-- Swagger Documentation
-- Git & GitHub
-
----
-
-# Lessons Learned
-
-During development the following real-world issues were encountered and resolved:
-
-### Virtual Environment Issues
-
-Packages were installed globally instead of within the project's virtual environment.
-
-### Port Conflicts
-
-An existing FastAPI process was running on the same port.
-
-### API Authentication
-
-Encountered both:
-
-```text
-401 Invalid API Key
-```
-
-and
-
-```text
-429 Insufficient Quota
-```
-
-errors while integrating with external AI providers.
-
-### ChromaDB Persistence
-
-Learned the difference between:
-
-```python
-chromadb.Client()
-```
-
-and:
-
-```python
-chromadb.PersistentClient()
-```
-
-### Python Indentation
-
-Python uses indentation rather than braces to define execution blocks.
-
----
-
-# Future Improvements
-
-## Phase 2
-
-- Persistent ChromaDB storage
-- Multiple documents
-- Document chunking
-- Metadata support
-
-## Phase 3
-
-- PDF Upload Support
-- DOCX Upload Support
-- User Authentication
-- Role-Based Access
-
-## Phase 4
-
-- Agent Routing
-- Multi-Agent Workflows
-- LangGraph Integration
-- Conversation Memory
-
-## Phase 5
-
-- Docker Containerization
-- Azure Deployment
-- CI/CD Pipeline
-- Monitoring & Logging
-
----
+***
 
 # Author
 
 **Hafiz Muhammad Bilal Sarwar**
 
-GitHub:
-https://github.com/bilalsarwar2907
+GitHub:  
+[BilalSarwar2907](https://github.com/bilalsarwar2907)
 
-LinkedIn:
-https://linkedin.com/in/bilal-sarwar-a449a83b7
+LinkedIn:  
+[Bilal Sarwar](https://linkedin.com/in/bilal-sarwar-a449a83b7)
 
----
+***
 
 # License
 
-This project is provided for educational and portfolio purposes.
+This project is provided for educational, learning, and portfolio purposes.
