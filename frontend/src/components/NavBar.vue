@@ -8,6 +8,7 @@
         <router-link to="/agent" class="link">Agent</router-link>
         <router-link to="/documents" class="link">Documents</router-link>
         <router-link to="/search" class="link">Search</router-link>
+        <router-link to="/evaluate" class="link">Evaluate</router-link>
       </nav>
 
       <div class="user">
